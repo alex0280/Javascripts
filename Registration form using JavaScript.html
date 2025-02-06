@@ -1,0 +1,123 @@
+Registration form using JavaScript
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Registration Form</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;">
+
+  <h1 style="color: #333;">🚀 Register Now 🚀</h1>
+  
+  <form id="registrationForm" style="background: white; padding: 20px; width: 350px; margin: auto; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2);">
+    
+    <label for="fname">First Name:</label><br>
+    <input type="text" id="fname" onkeyup="validateName()" required style="padding: 8px; width: 90%; margin-top: 5px;"><br>
+    <span id="fnameError"></span><br>
+
+    <label for="lname">Last Name:</label><br>
+    <input type="text" id="lname" onkeyup="validateName()" required style="padding: 8px; width: 90%; margin-top: 5px;"><br>
+    <span id="lnameError"></span><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" onkeyup="validateEmail()" required style="padding: 8px; width: 90%; margin-top: 5px;"><br>
+    <span id="emailError"></span><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" onkeyup="checkPasswordStrength()" required style="padding: 8px; width: 90%; margin-top: 5px;"><br>
+    <span id="passwordStrength"></span><br>
+
+    <label for="confirmPassword">Confirm Password:</label><br>
+    <input type="password" id="confirmPassword" onkeyup="validatePasswordMatch()" required style="padding: 8px; width: 90%; margin-top: 5px;"><br>
+    <span id="confirmPasswordError"></span><br><br>
+
+    <input type="submit" value="Register" id="registerBtn" style="padding: 10px; background-color: #28a745; color: white; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
+  </form>
+
+  <h2 id="message"></h2>
+
+  <script>
+    function validateName() {
+      let fname = document.getElementById("fname").value;
+      let lname = document.getElementById("lname").value;
+      let namePattern = /^[A-Za-z]+$/;
+
+      document.getElementById("fnameError").innerText = fname.match(namePattern) ? "" : "❌ Only letters allowed!";
+      document.getElementById("lnameError").innerText = lname.match(namePattern) ? "" : "❌ Only letters allowed!";
+      styleErrors("fnameError");
+      styleErrors("lnameError");
+    }
+
+    function validateEmail() {
+      let email = document.getElementById("email").value;
+      let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      document.getElementById("emailError").innerText = email.match(emailPattern) ? "" : "❌ Invalid Email Format!";
+      styleErrors("emailError");
+    }
+
+    function checkPasswordStrength() {
+      let password = document.getElementById("password").value;
+      let strengthText = "";
+      let strengthColor = "";
+
+      if (password.length < 6) {
+        strengthText = "⚠ Weak (min 6 chars)";
+        strengthColor = "red";
+      } else if (!/[A-Z]/.test(password)) {
+        strengthText = "🟡 Medium (add uppercase)";
+        strengthColor = "orange";
+      } else if (!/[0-9]/.test(password)) {
+        strengthText = "🟢 Strong (add number)";
+        strengthColor = "green";
+      } else {
+        strengthText = "✅ Very Strong";
+        strengthColor = "blue";
+      }
+
+      document.getElementById("passwordStrength").innerText = strengthText;
+      document.getElementById("passwordStrength").style.color = strengthColor;
+    }
+
+    function validatePasswordMatch() {
+      let password = document.getElementById("password").value;
+      let confirmPassword = document.getElementById("confirmPassword").value;
+
+      document.getElementById("confirmPasswordError").innerText = password !== confirmPassword ? "❌ Passwords do not match!" : "✅ Match!";
+      styleErrors("confirmPasswordError");
+    }
+
+    function styleErrors(id) {
+      let element = document.getElementById(id);
+      element.style.color = element.innerText.includes("❌") ? "red" : "green";
+    }
+
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      
+      let fname = document.getElementById("fname").value;
+      let lname = document.getElementById("lname").value;
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+      let confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (fname && lname && email && password && confirmPassword && password === confirmPassword) {
+        document.getElementById("message").innerHTML = "🎉 Registration Successful! <br> Welcome, <b>" + fname + " " + lname + "</b>!";
+        document.getElementById("message").style.color = "green";
+        alert("✅ Registration Successful!\nWelcome " + fname + " " + lname);
+      } else {
+        document.getElementById("message").innerText = "⚠ Please fix the errors before submitting.";
+        document.getElementById("message").style.color = "red";
+      }
+    });
+
+    document.getElementById("registerBtn").addEventListener("mouseover", function() {
+      this.style.backgroundColor = "#218838";
+    });
+
+    document.getElementById("registerBtn").addEventListener("mouseout", function() {
+      this.style.backgroundColor = "#28a745";
+    });
+  </script>
+
+</body>
+</html>
